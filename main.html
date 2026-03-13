@@ -81,16 +81,53 @@
                             </div>
                         </div>
                         <div class="flex justify-end items-center gap-4">
-                            <span class="flex items-center gap-2"><span class="text-[#00A96E]"><i class="fa-solid fa-circle"></i></span><p> Open</p></span>
-                            
-                            <span class="flex items-center gap-2"><span class="text-[#A855F7]"><i class="fa-solid fa-circle"></i></span><p> Closed</p></span>
-                            
+                            <span class="flex items-center gap-2"><span class="text-[#00A96E]"><i
+                                        class="fa-solid fa-circle"></i></span>
+                                <p> Open</p>
+                            </span>
+
+                            <span class="flex items-center gap-2"><span class="text-[#A855F7]"><i
+                                        class="fa-solid fa-circle"></i></span>
+                                <p> Closed</p>
+                            </span>
+
                         </div>
                     </div>
 
                     <!-- all cards -->
-                    <div class="bg-[#FBFBFB]">
+                    <div id="issues-container">
+                        <div class="bg-[#FBFBFB] p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                            <!-- card -->
+                            <div class="shadow">
+                                <div class="border-t-[3px] border-t-[#00A96E] rounded-sm p-4  space-y-4">
+                                    <div class="flex justify-between items-center">
+                                        <span><img src="./assets/Open-Status.png" alt=""></span>
+                                        <span
+                                            class="rounded-[100px] bg-[#FEECEC] text-[#EF4444] py-1.5 px-[25px]">HIGH</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-[14px]">Fix navigation menu on mobile devices</h3>
+                                        <p class="text-[#64748B] text-[12px]">The navigation menu doesn't collapse
+                                            properly
+                                            on mobile devices...</p>
+                                    </div>
+                                    <div class="flex justify-start items-center gap-1">
+                                        <button
+                                            class="py-1.5 px-2 flex justify-start items-center text-[#EF4444] bg-[#FEECEC] text-[12px] rounded-[100px] border border-[#EF4444] gap-0.5"><span
+                                                class=""><img src="./assets/bug.png" alt=""></span> BUG</button>
+                                        <button
+                                            class="py-1.5 px-2 flex justify-start items-center text-[#D97706] bg-[#FFF8DB] text-[12px] rounded-[100px] border border-[#D97706] gap-0.5"><span><img
+                                                    src="./assets/help-wanted.png" alt=""></span> HELP WANTED</button>
+                                    </div>
 
+                                </div>
+                                <div class="border-t border-[#E4E4E7] p-4 text-[12px] space-y-2 text-[#64748B]">
+                                    <p>#1 by john_doe</p>
+                                    <p>1/15/2024</p>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,7 +137,7 @@
     <footer></footer>
 
     <!-- script -->
-     <script src="./scripts/main.js"></script>
+    <script src="./scripts/main.js"></script>
 </body>
 
 </html>
