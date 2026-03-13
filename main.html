@@ -4,63 +4,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Github Issue Tracker | Issues</title>
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- daisyUI + Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link rel="stylesheet" href="./styles/style.css">
 </head>
 
-<body>
+<body class="min-h-screen bg-[#F8FAFC]">
     <header>
         <!-- navbar start -->
-        <div class="navbar bg-base-100 shadow-sm">
-            <div class="navbar-start">
-                <div class="dropdown">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h7" />
-                        </svg>
-                    </div>
-                    <ul tabindex="-1"
-                        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                        <li><a>Homepage</a></li>
-                        <li><a>Portfolio</a></li>
-                        <li><a>About</a></li>
-                    </ul>
+        <div class="navbar bg-base-100 shadow-sm px-15 mx-auto bg-[#FFFFFF]">
+            <div class="flex-1">
+                <div class="flex gap-2">
+                    <span class="text-2xl"><i class="fa-brands fa-github"></i></span>
+                    <p class="font-semibold text-2xl">GitHub Issues Tracker</p>
                 </div>
             </div>
-            <div class="navbar-center">
-                <a class="btn btn-ghost text-xl">daisyUI</a>
-            </div>
-            <div class="navbar-end">
-                <button class="btn btn-ghost btn-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </button>
-                <button class="btn btn-ghost btn-circle">
-                    <div class="indicator">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            <div class="flex gap-4">
+
+                <!-- search field -->
+                <div>
+                    <label class="input">
+                        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none"
+                                stroke="currentColor">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.3-4.3"></path>
+                            </g>
                         </svg>
-                        <span class="badge badge-xs badge-primary indicator-item"></span>
-                    </div>
-                </button>
+                        <input type="search" required placeholder="Search" />
+                    </label>
+                </div>
+
+                <!-- new issues button -->
+                <button class="btn btn-soft btn-primary hover:text-white"><span><span><i
+                                class="fa-solid fa-plus"></i></span> </span>New Issue</button>
             </div>
         </div>
         <!-- navbar end -->
     </header>
 
     <main>
-        <h1>helli
+        <section class="w-9/12 mx-auto my-[60px] rounded-lg">
+            <div class="py-6 mb-4 bg-[#FFFFFF] shadow rounded-lg">
+                <div id="btns-Container" class="flex justify-start items-center p-6 gap-2">
+                    <!-- <button class="text-white bg-[#4A00FF] w-[120px] py-2 px-3 rounded-sm" onclick="toggleStyle('all', this)">All</button>
+                    <button class="text-[#64748B] w-[120px] py-2 px-3 border border-[#E4E4E7] rounded-sm" onclick="toggleStyle('open', this)">Open</button>
+                    <button class="text-[#64748B] w-[120px] py-2 px-3 border border-[#E4E4E7] rounded-sm" onclick="toggleStyle('Closed', this)">Closed</button> -->
+                </div>
+            </div>
+            <div>
+                <!-- card container div -->
+                <div>
+                    <!-- number of issues -->
+                    <div class="p-6 flex justify-between items-center bg-[#FFFFFF] shadow">
+                        <div class="flex justify-start items-center gap-2">
+                            <div class=" p-[9px] rounded-[50%] bg-[#ECE4FF]">
+                                <img src="./assets/Aperture.png" alt="">
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-[20px]">50 Issues</h4>
+                                <p class="text-[#64748B]">Track and manage your project issues</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-end items-center gap-4">
+                            <span class="flex items-center gap-2"><span class="text-[#00A96E]"><i class="fa-solid fa-circle"></i></span><p> Open</p></span>
+                            
+                            <span class="flex items-center gap-2"><span class="text-[#A855F7]"><i class="fa-solid fa-circle"></i></span><p> Closed</p></span>
+                            
+                        </div>
+                    </div>
 
-        </h1>
+                    <!-- all cards -->
+                    <div class="bg-[#FBFBFB]">
+
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer></footer>
+
+    <!-- script -->
+     <script src="./scripts/main.js"></script>
 </body>
 
 </html>
