@@ -1,3 +1,7 @@
+const btnsContainer = document.getElementById("btns-Container");
+
+const allIssuesContainer = document.getElementById("all-issuesContainer")
+
 // shob issues er jonno array 
 let allIssues = [];
 
@@ -6,55 +10,63 @@ async function loadAllIssues(){
     const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
     const data = await res.json();
     console.log(data.data);
-    
+
     allIssues = data.data;
 
-    allIssues.forEach( state => console.log(state.status));
-}
-// loadAllIssues();
+    const filteredBtn = [];
+    allIssues.forEach(issue =>{
+        if(!filteredBtn.includes(issue.status)){
+            filteredBtn.push(issue.status);
+        }
+    })
+    
+    // btn er status property dhore 
+    filteredBtn.forEach(status => {
+        
+        const btn = document.createElement("button");
+        btn.className = "neutral-btn w-[120px] py-2 px-3 rounded-sm"
+        btn.textContent =status;
 
+        btn.onclick =()=> selectBtnCategory(status, btn);
 
-// button toggle 
-const loadBtns = (btns)=>{
-    // main container, initialize empty
-    const btnsContainer = document.getElementById("btns-Container");
-    btnsContainer.innerHTML = "";
-
-    // forEach btn
-    btns.forEach(btn => {
-
-        // create elem
-        const btnDiv = document.createElement("div");
-        btnDiv.innerHTML = `<button id="load-btn-${btn.status}" class="text-[#64748B] w-[120px] py-2 px-3 border border-[#E4E4E7] rounded-sm" onclick="loadTypesIssues('${btn.status}')">${btn.status}</button>`;
-
-        // appendChild in parent
-        btnsContainer.appendChild(btnDiv);
-        console.log(btnDiv);
+        btnsContainer.appendChild(btn);
     });
+};
+
+// btn click a 
+const selectBtnCategory = async (categoryStatus, btn)=>{
+
+    const allTypeBtn = document.querySelectorAll("#btns-Container button, #allIssueBtn");
+    // console.log(allTypeBtn);
+
+    allTypeBtn.forEach(button =>{
+        button.className = "neutral-btn w-[120px] py-2 px-3 border border-[#E4E4E7] rounded-sm mb-[8px]";
+    })
+
+    // clicked button highlight korte 
+    btn.className = "active-btn w-[120px] py-2 px-3 rounded-sm";
+
+    // API fetch 
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${categoryStatus}`);
+    const data = await res.json();
+    console.log(data.data);
+}
+
+//loading spinner related
+
+const loadingSpinner = document.getElementById("loading-spinner");
+const showLoading = () => {
+    loadingSpinner.classList.remove("hidden");
+    loadingSpinner.classList.add("flex");
+
+    allIssuesContainer.innerHTML = ""; //spinner show, div faka
+}
+
+const hideLoading = () => {
+    loadingSpinner.classList.remove("flex");
+    loadingSpinner.classList.add("hidden");
 }
 loadAllIssues();
 
-
-// btn type wise issue load
-const loadTypesIssues = (id)=> {
-    // console.log(id);
-
-    async function levelData() {
-        const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
-        const Data = await res.json();
-        
-        const btnClick = document.getElementById(`load-btn-${id}`);
-        btnClick.classList.add("active-btn");
-
-        displayTypesIssues(Data.data)
-    };
-
-    levelData();
-};
-
-// btn type wise issue display
-const displayTypesIssues = (issues)=>{
-
-}
 
 
