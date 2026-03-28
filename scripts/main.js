@@ -1,6 +1,9 @@
-const btnsContainer = document.getElementById("btns-Container");
+const btnsContainer = document.getElementById("btns-container");
 
-const allIssuesContainer = document.getElementById("all-issuesContainer")
+const allIssuesContainer = document.getElementById("all-issuesContainer");
+
+const totalNumberIssues = document.getElementById("total-NumberIssues");
+
 
 // shob issues er jonno array 
 let allIssues = [];
@@ -28,22 +31,30 @@ async function loadAllButtons(){
         
         const btn = document.createElement("button");
         btn.className = "neutral-btn w-[120px] py-2 px-3 rounded-sm"
-        btn.textContent =status;
+
+        const firstLetter = status[0].toUpperCase();
+        
+        btn.textContent = firstLetter + status.slice(1);
 
         btn.onclick =()=> selectBtnCategory(status, btn);
 
         btnsContainer.appendChild(btn);
     });
+
+    // total issue number dekhabe 
+    totalNumberIssues.innerText = `${allIssues.length} Issues`;
 };
 
 // btn click a je function ta ashbe  
 const selectBtnCategory = async (categoryStatus, btn)=>{
 
-    const allTypeBtn = document.querySelectorAll("#btns-Container button, #allIssueBtn");
+    showLoading();
+
+    const allTypeBtn = document.querySelectorAll("#btns-container button, #allIssueBtn");
     // console.log(allTypeBtn);
 
     allTypeBtn.forEach(button =>{
-        button.className = "neutral-btn w-[120px] py-2 px-3 border border-[#E4E4E7] rounded-sm mb-[8px]";
+        button.className = "neutral-btn w-[120px] py-2 px-3 border border-[#E4E4E7] rounded-sm";
     })
 
     // clicked button highlight korte 
@@ -52,12 +63,18 @@ const selectBtnCategory = async (categoryStatus, btn)=>{
     // API fetch 
 
     // issue er status jodi 'categoryStatus hoy'
-    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues?data=${categoryStatus}`);
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues?status=${categoryStatus}`);
     const data = await res.json();
 
     console.log(data);
     // display issue function call
-    displayAllIssues(data.data);
+    const issues = data.data;
+    displayAllIssues(issues);
+
+    // filter issue count hobe 
+    totalNumberIssues.innerText = `${issues.length} Issues`;
+
+    hideLoading();
 }
 
 //loading spinner related
@@ -82,6 +99,13 @@ async function loadAllIssues() {
 
     // shob issue display korar jonno
     displayAllIssues(jData.data);
+}
+
+// checkLevels 
+const checkLevels = (levels) =>{
+    if(levels.length === 0){
+        
+    }
 }
 
 const displayAllIssues = (issues) =>{
@@ -145,6 +169,19 @@ const displayAllIssues = (issues) =>{
         allIssuesContainer.appendChild(issueCard);
     })
 }
+
+// // Total number issue manage 
+// function updateTotalNumberIssues(issues){
+//     const total = issues.length;
+
+//     const openedIssues = issues.filter(issue => issue.status === "open").length;
+//     const closedIssues = issues.filter(issue => issue.status === "closed").length;
+
+//     if(totalNumberIssues)
+// }
+
+
+loadAllIssues();
 loadAllButtons();
 
 

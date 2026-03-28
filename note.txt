@@ -1,0 +1,33 @@
+navbar here 
+<div class="navbar bg-base-100 shadow-sm px-15 mx-auto bg-[#FFFFFF]">
+            <div class="flex-1">
+                <div class="flex gap-2">
+                    <span class="text-2xl"><i class="fa-brands fa-github"></i></span>
+                    <p class="font-semibold text-2xl">GitHub Issues Tracker</p>
+                </div>
+            </div>
+            <div class="flex gap-4">
+
+                <!-- search field -->
+                <div class="join">
+                    <div>
+                        <label class="input validator join-item">
+                            <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none"
+                                    stroke="currentColor">
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </g>
+                            </svg>
+                            <input type="text" placeholder="Search Issues" required />
+                        </label>
+                        <div class="validator-hint hidden">Search Issue</div>
+                    </div>
+                    <button class="btn btn-neutral join-item">Search</button>
+                </div>
+
+                <!-- new issues button -->
+                <button class="btn btn-soft btn-primary hover:text-white"><span><span><i
+                                class="fa-solid fa-plus"></i></span> </span>New Issue</button>
+            </div>
+        </div>
