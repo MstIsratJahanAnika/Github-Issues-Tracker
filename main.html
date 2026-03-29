@@ -41,14 +41,6 @@
                     <ul tabindex="-1"
                         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                         <li><a class="btn btn-ghost"><span><i class="fa-solid fa-plus"></i></span> New Issues</a></li>
-                        <!-- <li>
-                            <a>Parent</a>
-                            <ul class="p-2">
-                                <li><a>Submenu 1</a></li>
-                                <li><a>Submenu 2</a></li>
-                            </ul>
-                        </li>
-                        <li><a>Item 3</a></li> -->
                     </ul>
                 </div>
                 <a class="btn btn-ghost text-xl">
@@ -58,25 +50,6 @@
                     </div>
                 </a>
             </div>
-             
-            <!-- <div class="navbar-center hidden lg:flex">
-
-                    eta horizontal a thakbe  
-
-                    <ul class="menu menu-horizontal px-1">
-                        <li><a>Item 1</a></li>
-                        <li>
-                            <details>
-                                <summary>Parent</summary>
-                                <ul class="p-2 bg-base-100 w-40 z-1">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </details>
-                        </li>
-                        <li><a>Item 3</a></li>
-                    </ul>
-                </div> -->
              
             <div class="navbar-end gap-4">
 
@@ -107,7 +80,11 @@
     <main>
         <section class="w-9/12 mx-auto my-[60px]">
             <div class="py-6 mb-4 bg-[#FFFFFF] shadow rounded-lg">
-                <div class="flex justify-start items-center p-6 gap-2 space-y-2">
+
+                <!-- buttons div -->
+                <div class="flex justify-start items-center p-6 gap-2">
+
+                    <!-- buttons - click korle issues load hobe -->
                     <button id="allIssueBtn" class="active-btn w-[120px] py-2 px-3 rounded-sm"
                         onclick="selectBtnCategory('All',this)">All</button>
 
@@ -121,7 +98,7 @@
                 <!-- card container div -->
                 <div class="shadow">
                     <!-- number of issues start -->
-                    <div class="p-6 flex justify-between items-center bg-[#FFFFFF] shadow border-b border-[#E4E4E7]">
+                    <div class="p-6 flex flex-col md:flex-row space-y-10 md:space-y-0 md:justify-between items-center bg-[#FFFFFF] shadow border-b border-[#E4E4E7]">
                         <div class="flex justify-start items-center gap-2">
                             <div class=" p-[9px] rounded-[50%] bg-[#ECE4FF]">
                                 <img src="./assets/Aperture.png" alt="">

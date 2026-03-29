@@ -11,6 +11,7 @@ let allIssues = [];
 // button gula load er jonno 
 async function loadAllButtons(){
     
+    // ekhane showloading dekhabe 
     const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
     const data = await res.json();
     console.log(data.data);
@@ -34,7 +35,7 @@ async function loadAllButtons(){
 
         const firstLetter = status[0].toUpperCase();
         
-        btn.textContent = firstLetter + status.slice(1);
+        btn.textContent = firstLetter + status.slice(1); //button er nam select
 
         btn.onclick =()=> selectBtnCategory(status, btn);
 
@@ -108,6 +109,49 @@ const checkLevels = (levels) =>{
     }
 }
 
+
+// API label wise load - bug/help-wanted/enhancement
+const labels = (labelStatus) => {
+    let result = "";
+
+    labelStatus.forEach(label => {
+
+        let badgeClass = "";
+        let textClass = "";
+        // let bgClass = "";
+        let borderClass = "";
+        let imgSrc = "";
+
+        if (label === "bug") {
+            badgeClass = "text-[#EF4444] bg-[#FEECEC]";
+            borderClass = "border-[#EF4444]/30";
+            imgSrc = "./assets/bug.png";
+        } 
+        else if (label === "help wanted") {
+            badgeClass = "text-[#D97706] bg-[#FFF8DB]";
+            borderClass = "border-[#D97706]/30";
+            imgSrc = "./assets/help-wanted.png";
+        } 
+        else {
+            badgeClass = "text-[#00A96E] bg-[#DEFCE8]";
+            borderClass = "border-[#00A96E]/30";
+            imgSrc = "./assets/enhancement.png";
+        }
+
+        result += `
+        <div class="py-1.5 px-2 flex items-center text-[12px] rounded-[100px] border ${badgeClass} ${borderClass} gap-1">
+            <span>
+                <img src="${imgSrc}" class="w-3 h-3 inline-block" alt="">
+            </span>
+            ${label.toUpperCase()}
+        </div>
+        `;
+    });
+
+    return result;
+};
+
+
 const displayAllIssues = (issues) =>{
     console.log(issues);
     allIssuesContainer.innerHTML ="";
@@ -146,24 +190,14 @@ const displayAllIssues = (issues) =>{
                             ${issue.description}
                         </p>
                 </div>
-                <div class="flex justify-start items-center gap-1">
-                    <button class="py-1.5 px-2 flex justify-start items-center text-[#EF4444] bg-[#FEECEC] text-[12px] rounded-[100px] border border-[#EF4444]/30 gap-0.5">
-                        <span class=""><img src="./assets/bug.png" alt=""></span>
-                         BUG
-                    </button>
-
-                    <button class="py-1.5 px-2 flex justify-start items-center text-[#D97706] bg-[#FFF8DB] text-[12px] rounded-[100px] border border-[#D97706]/30 gap-0.5">
-                    <span><img src="./assets/help-wanted.png" alt=""></span>
-                     HELP WANTED
-                    </button>
+                <div class="flex flex-wrap justify-start items-center gap-1">
+                    ${labels(issue.labels)}
                 </div>
 
             </div>
-            <div>
-                <div class="border-t border-[#E4E4E7] p-4 text-[12px] space-y-2 text-[#64748B]">
-                    <p>#${issue.id} by ${issue.author}</p>
-                    <p>${issue.createdAt}</p>
-                </div>
+            <div class="border-t border-[#E4E4E7] p-4 text-[12px] space-y-2 text-[#64748B]">
+                <p>#${issue.id} by ${issue.author}</p>
+                <p>${new Date(issue.createdAt).toLocaleDateString("en-US")}</p>
             </div>
         `;
         allIssuesContainer.appendChild(issueCard);
