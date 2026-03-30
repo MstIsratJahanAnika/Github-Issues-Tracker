@@ -4,6 +4,8 @@ const allIssuesContainer = document.getElementById("all-issuesContainer");
 
 const totalNumberIssues = document.getElementById("total-NumberIssues");
 
+const searchBtn = document.getElementById("searchBtn");
+const inputText = document.getElementById("inputText");
 
 // shob issues er jonno array 
 let allIssues = [];
@@ -31,11 +33,9 @@ async function loadAllButtons(){
     filteredBtn.forEach(status => {
         
         const btn = document.createElement("button");
-        btn.className = "neutral-btn w-[120px] py-2 px-3 rounded-sm"
-
-        const firstLetter = status[0].toUpperCase();
+        btn.className = "load-btns neutral-btn w-[120px] py-2 px-3 rounded-sm capitalize"
         
-        btn.textContent = firstLetter + status.slice(1); //button er nam select
+        btn.textContent = status; //button er nam select
 
         btn.onclick =()=> selectBtnCategory(status, btn);
 
@@ -78,6 +78,12 @@ const selectBtnCategory = async (categoryStatus, btn)=>{
     hideLoading();
 }
 
+
+// calculate total count of issues 
+function totalCount(){
+    document.getElementById("total-NumberIssues").innerText = allIssuesContainer.children.length;
+}
+
 //loading spinner related
 const loadingSpinner = document.getElementById("loading-spinner");
 
@@ -102,6 +108,19 @@ async function loadAllIssues() {
     displayAllIssues(jData.data);
 }
 
+// search issues function 
+async function searchIssues(){
+    const AllBtn = document.querySelector(".load-btns");
+    AllBtn.classList.add("active-btn", "btn-primary");
+
+    const searchText = inputText.value.trim();
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`);
+    const Data = await res.json();
+
+    const result = Data.data;
+    displayAllIssues(result);
+}
+
 // checkLevels 
 const checkLevels = (levels) =>{
     if(levels.length === 0){
@@ -117,8 +136,6 @@ const labels = (labelStatus) => {
     labelStatus.forEach(label => {
 
         let badgeClass = "";
-        let textClass = "";
-        // let bgClass = "";
         let borderClass = "";
         let imgSrc = "";
 
@@ -204,6 +221,68 @@ const displayAllIssues = (issues) =>{
     })
 }
 
+
+// modal open
+allIssuesContainer.addEventListener("click", async() => {
+    const id = issue.id;
+
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
+    const Data = await res.json();
+    
+    displayModal(Data.data)
+});
+
+
+// display modal function
+const displayModal = (modal) =>{
+
+    const showModal = document.getElementById("my_modal_5");
+
+    showModal.innerHTML = `
+        <div class="modal-box p-8">
+                <h3 class="text-2xl text-[#1F2937] font-bold mb-3">${modal.title}</h3>
+                <div class="flex justify-start items-center gap-2 mb-6 text-[12px] text-[#64748B]">
+
+                    <p class="py-1.5 px-2 rounded-[100px] text-white ${modal.status === "open" ? "bg-[#00A96E]" : "bg-[#A855F7]"}">${modal.status === "open" ? "Opened" : "Closed"}</p>
+
+                    <span class="bg-[#64748B] rounded-full w-1 h-1"></span>
+                    <p>${modal.status == "open" ? "Opened" : modal.status} by ${modal.assignee ? modal.assignee : "Anonymous"}</p>
+                    <span class="bg-[#64748B] rounded-full w-1 h-1"></span>
+                    <p>${new Date(modal.updatedAt).toLocaleDateString("en-US")}</p>
+                </div>
+                <div class="space-y-6">
+                    <div class="flex justify-start items-center gap-1">
+                        <button
+                            class="py-1.5 px-2 flex justify-start items-center text-[#EF4444] bg-[#FEECEC] text-[12px] rounded-[100px] border border-[#EF4444]/30 gap-0.5"><span
+                                class=""><img src="./assets/bug.png" alt=""></span> BUG</button>
+                        <button
+                            class="py-1.5 px-2 flex justify-start items-center text-[#D97706] bg-[#FFF8DB] text-[12px] rounded-[100px] border border-[#D97706]/30 gap-0.5"><span><img
+                                    src="./assets/help-wanted.png" alt=""></span> HELP WANTED</button>
+                    </div>
+                    <p class="text-[#64748B]">The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.</p>
+    
+                    <div class="flex justify-start items-center gap-2.5">
+                        <!-- left -->
+                        <div class="flex-1 bg-[#F8FAFC] p-4">
+                            <p class="text-[#64748B]">Assignee:</p>
+                            <p class="font-semibold">Fahim Ahmed</p>
+                        </div>
+                        <!-- right -->
+                        <div class="flex-1 bg-[#F8FAFC] space-y-1 p-4">
+                            <p class="text-[#64748B]">Priority:</p>
+                            <span class="bg-red-500 text-white rounded-[100px] px-4 py-1.5">HIGH</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn btn-active btn-primary">Close</button>
+                    </form>
+                </div>
+            </div>
+    `;
+}
 // // Total number issue manage 
 // function updateTotalNumberIssues(issues){
 //     const total = issues.length;
@@ -214,7 +293,7 @@ const displayAllIssues = (issues) =>{
 //     if(totalNumberIssues)
 // }
 
-
+totalCount();
 loadAllIssues();
 loadAllButtons();
 

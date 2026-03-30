@@ -50,28 +50,30 @@
                     </div>
                 </a>
             </div>
-             
+
             <div class="navbar-end gap-4">
 
                 <!-- search input -->
                 <div class="join">
                     <div>
-
                         <!-- search bar -->
                         <label class="input validator join-item flex items-center gap-2">
                             <i class="fa-solid fa-magnifying-glass opacity-50"></i>
-                            <input type="email" placeholder="Search issues..." required />
+                            <!-- ja diye search kora hobe -->
+                            <input id="inputText" type="text" placeholder="Search issues..." required />
                         </label>
                         <div class="validator-hint hidden">Enter valid Issue</div>
                     </div>
-                    <button class="btn btn-primary btn-active join-item">Search</button>
+                    <!-- click korle serach hobe -->
+                    <button id="searchBtn" class="btn btn-primary btn-active join-item"
+                        onclick="searchIssues()">Search</button>
                 </div>
 
                 <!-- new issues button -->
-                 <div class="hidden md:flex">
-                     <button class="btn btn-soft btn-primary hover:text-white"><span><span><i
-                                     class="fa-solid fa-plus"></i></span> </span>New Issue</button>
-                 </div>
+                <div class="hidden md:flex">
+                    <button class="btn btn-soft btn-primary hover:text-white"><span><span><i
+                                    class="fa-solid fa-plus"></i></span> </span>New Issue</button>
+                </div>
             </div>
         </div>
         <!-- navbar end -->
@@ -85,7 +87,7 @@
                 <div class="flex justify-start items-center p-6 gap-2">
 
                     <!-- buttons - click korle issues load hobe -->
-                    <button id="allIssueBtn" class="active-btn w-[120px] py-2 px-3 rounded-sm"
+                    <button id="allIssueBtn" class="load-btns active-btn w-[120px] py-2 px-3 rounded-sm"
                         onclick="selectBtnCategory('All',this)">All</button>
 
                     <div id="btns-container" class="flex items-center gap-2">
@@ -98,13 +100,15 @@
                 <!-- card container div -->
                 <div class="shadow">
                     <!-- number of issues start -->
-                    <div class="p-6 flex flex-col md:flex-row space-y-10 md:space-y-0 md:justify-between items-center bg-[#FFFFFF] shadow border-b border-[#E4E4E7]">
+                    <div
+                        class="p-6 flex flex-col md:flex-row space-y-10 md:space-y-0 md:justify-between items-center bg-[#FFFFFF] shadow border-b border-[#E4E4E7]">
                         <div class="flex justify-start items-center gap-2">
                             <div class=" p-[9px] rounded-[50%] bg-[#ECE4FF]">
                                 <img src="./assets/Aperture.png" alt="">
                             </div>
                             <div>
-                                <h4 id="total-NumberIssues" class="font-semibold text-[20px]">50 Issues</h4>
+                                <h4 class="font-semibold text-[20px]"><span id="total-NumberIssues">50</span> Issues
+                                </h4>
                                 <p class="text-[#64748B]">Track and manage your project issues</p>
                             </div>
                         </div>
@@ -169,6 +173,52 @@
                 </div>
             </div>
         </section>
+
+        <!-- modal section -->
+        <!-- Open the modal using ID.showModal() method -->
+        <button class="btn" onclick="my_modal_5.showModal()">open modal</button>
+        <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle rounded-xl">
+            <div class="modal-box p-8">
+                <h3 class="text-2xl text-[#1F2937] font-bold mb-3">Fix broken image uploads</h3>
+                <div class="flex justify-start items-center gap-2 mb-6 text-[12px] text-[#64748B]">
+                    <p class="py-1.5 px-2 rounded-[100px] bg-[#00A96E] text-white">Opened</p>
+                    <span class="bg-[#64748B] rounded-full w-1 h-1"></span>
+                    <p>Opened by Fahim Ahmed</p>
+                    <span class="bg-[#64748B] rounded-full w-1 h-1"></span>
+                    <p>22/02/2026</p>
+                </div>
+                <div class="space-y-6">
+                    <div class="flex justify-start items-center gap-1">
+                        <button
+                            class="py-1.5 px-2 flex justify-start items-center text-[#EF4444] bg-[#FEECEC] text-[12px] rounded-[100px] border border-[#EF4444]/30 gap-0.5"><span
+                                class=""><img src="./assets/bug.png" alt=""></span> BUG</button>
+                        <button
+                            class="py-1.5 px-2 flex justify-start items-center text-[#D97706] bg-[#FFF8DB] text-[12px] rounded-[100px] border border-[#D97706]/30 gap-0.5"><span><img
+                                    src="./assets/help-wanted.png" alt=""></span> HELP WANTED</button>
+                    </div>
+                    <p class="text-[#64748B]">The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.</p>
+    
+                    <div class="flex justify-start items-center gap-2.5">
+                        <!-- left -->
+                        <div class="flex-1 bg-[#F8FAFC] p-4">
+                            <p class="text-[#64748B]">Assignee:</p>
+                            <p class="font-semibold">Fahim Ahmed</p>
+                        </div>
+                        <!-- right -->
+                        <div class="flex-1 bg-[#F8FAFC] space-y-1 p-4">
+                            <p class="text-[#64748B]">Priority:</p>
+                            <span class="bg-red-500 text-white rounded-[100px] px-4 py-1.5">HIGH</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn btn-active btn-primary">Close</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
     </main>
 
     <footer></footer>
