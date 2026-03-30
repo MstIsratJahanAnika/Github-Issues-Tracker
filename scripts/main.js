@@ -11,9 +11,11 @@ const inputText = document.getElementById("inputText");
 let allIssues = [];
 
 // button gula load er jonno 
-async function loadAllButtons(){
-    
+async function loadAllButtons() {
+
     // ekhane showloading dekhabe 
+    showLoading();
+
     const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
     const data = await res.json();
     console.log(data.data);
@@ -22,65 +24,71 @@ async function loadAllButtons(){
 
     btnsContainer.innerHTML = "";
 
+    // All button
+    const allBtn = document.createElement("button");
+    allBtn.className = "load-btns active-btn w-[120px] py-2 px-3 rounded-sm capitalize active-btn";
+    allBtn.textContent = "All";
+    allBtn.onclick = () => selectBtnCategory("All", allBtn);
+    btnsContainer.appendChild(allBtn);
+
+
     const filteredBtn = [];
-    allIssues.forEach(issue =>{
-        if(!filteredBtn.includes(issue.status)){
+    allIssues.forEach(issue => {
+        if (!filteredBtn.includes(issue.status)) {
             filteredBtn.push(issue.status);
         }
     })
-    
+
     // btn er status property dhore 
     filteredBtn.forEach(status => {
-        
+
         const btn = document.createElement("button");
         btn.className = "load-btns neutral-btn w-[120px] py-2 px-3 rounded-sm capitalize"
-        
+
         btn.textContent = status; //button er nam select
 
-        btn.onclick =()=> selectBtnCategory(status, btn);
+        btn.onclick = () => selectBtnCategory(status, btn);
 
         btnsContainer.appendChild(btn);
     });
 
     // total issue number dekhabe 
     totalNumberIssues.innerText = `${allIssues.length} Issues`;
+    hideLoading();
 };
 
 // btn click a je function ta ashbe  
-const selectBtnCategory = async (categoryStatus, btn)=>{
+const selectBtnCategory = async (categoryStatus, btn) => {
 
     showLoading();
 
-    const allTypeBtn = document.querySelectorAll("#btns-container button, #allIssueBtn");
+    const allTypeBtn = document.querySelectorAll("#btns-container button");
     // console.log(allTypeBtn);
 
-    allTypeBtn.forEach(button =>{
-        button.className = "neutral-btn w-[120px] py-2 px-3 border border-[#E4E4E7] rounded-sm";
+    allTypeBtn.forEach(button => {
+        button.className = "neutral-btn w-[120px] py-2 px-3 border border-[#E4E4E7] rounded-sm capitalize";
     })
 
     // clicked button highlight korte 
-    btn.className = "active-btn w-[120px] py-2 px-3 rounded-sm";
+    btn.className = "load-btns active-btn w-[120px] py-2 px-3 rounded-sm capitalize ";
 
-    // API fetch 
+    let filteredIssues = [];
 
-    // issue er status jodi 'categoryStatus hoy'
-    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues?status=${categoryStatus}`);
-    const data = await res.json();
+    if(categoryStatus === "All"){
+        filteredIssues = allIssues;
+    } else {
+        filteredIssues = allIssues.filter(issue => issue.status === categoryStatus);
+    }
 
-    console.log(data);
-    // display issue function call
-    const issues = data.data;
-    displayAllIssues(issues);
-
-    // filter issue count hobe 
-    totalNumberIssues.innerText = `${issues.length} Issues`;
+    displayAllIssues(filteredIssues);
+    totalNumberIssues.innerText = `${filteredIssues.length} Issues`;
 
     hideLoading();
 }
 
 
 // calculate total count of issues 
-function totalCount(){
+function totalCount() {
     document.getElementById("total-NumberIssues").innerText = allIssuesContainer.children.length;
 }
 
@@ -106,25 +114,34 @@ async function loadAllIssues() {
 
     // shob issue display korar jonno
     displayAllIssues(jData.data);
+
+    totalNumberIssues.innerText = jData.data.length;
+
+    hideLoading();
 }
 
 // search issues function 
-async function searchIssues(){
+async function searchIssues() {
     const AllBtn = document.querySelector(".load-btns");
-    AllBtn.classList.add("active-btn", "btn-primary");
+    AllBtn.classList.add(".active-btn");
 
     const searchText = inputText.value.trim();
+
+    showLoading();
     const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`);
     const Data = await res.json();
 
     const result = Data.data;
     displayAllIssues(result);
+    totalNumberIssues.innerText = result.length;
+
+    hideLoading();
 }
 
 // checkLevels 
-const checkLevels = (levels) =>{
-    if(levels.length === 0){
-        
+const checkLevels = (levels) => {
+    if (levels.length === 0) {
+
     }
 }
 
@@ -143,12 +160,12 @@ const labels = (labelStatus) => {
             badgeClass = "text-[#EF4444] bg-[#FEECEC]";
             borderClass = "border-[#EF4444]/30";
             imgSrc = "./assets/bug.png";
-        } 
+        }
         else if (label === "help wanted") {
             badgeClass = "text-[#D97706] bg-[#FFF8DB]";
             borderClass = "border-[#D97706]/30";
             imgSrc = "./assets/help-wanted.png";
-        } 
+        }
         else {
             badgeClass = "text-[#00A96E] bg-[#DEFCE8]";
             borderClass = "border-[#00A96E]/30";
@@ -168,29 +185,31 @@ const labels = (labelStatus) => {
     return result;
 };
 
-
-const displayAllIssues = (issues) =>{
+// all cards display
+const displayAllIssues = (issues) => {
     console.log(issues);
-    allIssuesContainer.innerHTML ="";
+    allIssuesContainer.innerHTML = "";
 
-    issues.forEach(issue =>{
+    issues.forEach(issue => {
         const issueCard = document.createElement("div");
 
         // priority type er moddhe conditional rendering 
         let priorityTypeClass = "";
-        if(issue.priority === "high"){
+        if (issue.priority === "high") {
             priorityTypeClass = "bg-[#FEECEC] text-[#EF4444]";
         }
-        else if(issue.priority === "medium"){
+        else if (issue.priority === "medium") {
             priorityTypeClass = "bg-[#FFF6D1] text-[#F59E0B]"
         }
-        else if(issue.priority === "low"){
+        else if (issue.priority === "low") {
             priorityTypeClass = "bg-[#EEEFF2] text-[#9CA3AF]"
         }
 
         issueCard.className = "shadow h-full w-full";
+        issueCard.dataset.id = issue.id;
+
         issueCard.innerHTML = `
-            <div class="border-t-[3px] ${issue.status === "open"? "border-t-[#00A96E]" : "border-t-[#A855F7]"} p-4 rounded-sm space-y-4">
+            <div class="border-t-[3px] ${issue.status === "open" ? "border-t-[#00A96E]" : "border-t-[#A855F7]"} p-4 rounded-sm space-y-4">
 
                 <div class="flex justify-between items-center">
 
@@ -223,18 +242,22 @@ const displayAllIssues = (issues) =>{
 
 
 // modal open
-allIssuesContainer.addEventListener("click", async() => {
-    const id = issue.id;
+allIssuesContainer.addEventListener("click", async (e) => {
+
+    const card = e.target.closest("div.shadow"); // issue card class
+    if(!card) return;
+
+    const id = card.dataset.id;
 
     const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
     const Data = await res.json();
-    
+
     displayModal(Data.data)
 });
 
 
 // display modal function
-const displayModal = (modal) =>{
+const displayModal = (modal) => {
 
     const showModal = document.getElementById("my_modal_5");
 
@@ -252,25 +275,22 @@ const displayModal = (modal) =>{
                 </div>
                 <div class="space-y-6">
                     <div class="flex justify-start items-center gap-1">
-                        <button
-                            class="py-1.5 px-2 flex justify-start items-center text-[#EF4444] bg-[#FEECEC] text-[12px] rounded-[100px] border border-[#EF4444]/30 gap-0.5"><span
-                                class=""><img src="./assets/bug.png" alt=""></span> BUG</button>
-                        <button
-                            class="py-1.5 px-2 flex justify-start items-center text-[#D97706] bg-[#FFF8DB] text-[12px] rounded-[100px] border border-[#D97706]/30 gap-0.5"><span><img
-                                    src="./assets/help-wanted.png" alt=""></span> HELP WANTED</button>
+                        ${labels(modal.labels)}
                     </div>
-                    <p class="text-[#64748B]">The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.</p>
+                    <p class="text-[#64748B]">${modal.description}</p>
     
                     <div class="flex justify-start items-center gap-2.5">
+                    
                         <!-- left -->
                         <div class="flex-1 bg-[#F8FAFC] p-4">
                             <p class="text-[#64748B]">Assignee:</p>
-                            <p class="font-semibold">Fahim Ahmed</p>
+                            <p class="font-semibold">${modal.assignee ? modal.assignee : "Anonymous"}</p>
                         </div>
+
                         <!-- right -->
                         <div class="flex-1 bg-[#F8FAFC] space-y-1 p-4">
                             <p class="text-[#64748B]">Priority:</p>
-                            <span class="bg-red-500 text-white rounded-[100px] px-4 py-1.5">HIGH</span>
+                            <span class="text-white rounded-[100px] px-4 py-1.5 ${modal.priority == "high" ? 'bg-[#EF4444]' : modal.priority == 'medium' ? 'bg-[#F59E0B]' : 'bg-[#9CA3AF]'}">${modal.priority}</span>
                         </div>
                     </div>
                 </div>
@@ -282,7 +302,10 @@ const displayModal = (modal) =>{
                 </div>
             </div>
     `;
+    showModal.showModal();
 }
+
+
 // // Total number issue manage 
 // function updateTotalNumberIssues(issues){
 //     const total = issues.length;
